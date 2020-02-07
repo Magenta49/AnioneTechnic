@@ -1,42 +1,52 @@
 #pragma once
 
-#include <map>	
+#include <map>
 #include <list>
 #include <string>
-#include <typeinfo.h>
+
 #include <d3dx9.h>
 
+//#include <typeinfo.h>
+//
 //class Component;
-
-
 using namespace std;
+
+class animation;
+
+
 class GameObject
 {
-private:
+public:
 
 	GameObject();
 	~GameObject();
+
+	animation * Animation;
 
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 scale;
 	float degree;
 
+	bool isActive;
 
+	virtual void Awake();
 	virtual void Update();
-	
+	virtual void LateUpdate();
+	virtual void OnDestroy();
+
+	void UpdateAnimation();
+
 
 	//template<class T>
-	//T* AddComponent();
+	//T * AddComponent();
 
 	//template<class T>
-	//T* GetComponent();
+	//T * GetComponent();
 
-public:
+private:
 
-	//map<string, Component *> componentMap;
-	//list<Component *> componentList;
-
-
+	//std::map<std::string, Component *> componentMap;
+	//std::list<Component *> componentList;
 };
 
 //template<class T>
@@ -51,12 +61,10 @@ public:
 //		return nullptr;
 //	}
 //
-//	
-//
 //	auto componentName = typeid(comp).name();
 //
-//	componentMap.insert(make_pair(componentName, comp));
-//	componentList insert(comp);
+//	componentMap.insert(std::make_pair(componentName, comp));
+//	componentList.insert(comp);
 //
 //	return comp;
 //}

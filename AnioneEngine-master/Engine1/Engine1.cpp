@@ -1,8 +1,8 @@
-// Win32Project1.cpp : 응용 프로그램에 대한 진입점을 정의합니다.
+// Engine1.cpp : 응용 프로그램에 대한 진입점을 정의합니다.
 //
 
 #include "stdafx.h"
-#include "Win32Project1.h"
+#include "Engine1.h"
 #include "Camera.h"
 #include "GameManager.h"
 
@@ -31,7 +31,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_WIN32PROJECT1, szWindowClass, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDC_ENGINE1, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
 
     // 응용 프로그램 초기화를 수행합니다.
@@ -40,13 +40,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
-    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WIN32PROJECT1));
+    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_ENGINE1));
 
     MSG msg;
 
 	memset(&msg, 0, sizeof(MSG));
 
-	while (msg.message != WM_QUIT)//업뎃문으로 변경한거
+	while (msg.message != WM_QUIT)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
@@ -55,13 +55,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
-			//update
-			//render
+			// Update
+			// Render
+			GameManager::Update();
 			GameManager::Render();
 		}
 	}
-
-
 
     return (int) msg.wParam;
 }
@@ -84,7 +83,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.cbClsExtra     = 0;
     wcex.cbWndExtra     = 0;
     wcex.hInstance      = hInstance;
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WIN32PROJECT1));
+    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ENGINE1));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
 	wcex.lpszMenuName = nullptr;
@@ -108,11 +107,19 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   RECT rc = { 0,0,Camera::screenWidth,Camera::screenHeight };
-   AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME^WS_MAXIMIZEBOX, false);
+   RECT rc = { 0, 0, Camera::screenWidth, Camera::screenHeight };
 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME^WS_MAXIMIZEBOX,
-      CW_USEDEFAULT, 0, rc.right - rc.left, rc.bottom-rc.top, nullptr, nullptr, hInstance, nullptr);
+   AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX, false);
+
+
+   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
+      CW_USEDEFAULT, 0,
+	   rc.right - rc.left,
+	   rc.bottom - rc.top,
+	   nullptr,
+	   nullptr,
+	   hInstance,
+	   nullptr);
 
    if (!hWnd)
    {

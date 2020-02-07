@@ -3,12 +3,9 @@
 template<class T>
 class Singleton
 {
-public:
-
-
 private:
 
-	static T *instance;
+	static T * instance;
 
 public:
 
@@ -17,7 +14,7 @@ public:
 
 	}
 
-	static T * GET()
+	static T * Get()
 	{
 		if (instance != nullptr)
 			return instance;
@@ -27,4 +24,3 @@ public:
 
 template <class T>
 T * Singleton<T>::instance = nullptr;
-

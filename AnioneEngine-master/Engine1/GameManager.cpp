@@ -1,10 +1,14 @@
-
 #include "GameManager.h"
-
+#include "GraphicManager.h"
 #include "Camera.h"
+#include "Scene.h"
+#include "TestObj.h"
 
 LPDIRECT3D9 GameManager::g_pD3D = LPDIRECT3D9();
 LPDIRECT3DDEVICE9 GameManager::g_pd3dDevice = LPDIRECT3DDEVICE9();
+Scene * GameManager::nowScene = nullptr;
+
+
 void GameManager::Init(HWND hWnd)
 {
 	g_pD3D = Direct3DCreate9(D3D_SDK_VERSION);
@@ -21,28 +25,36 @@ void GameManager::Init(HWND hWnd)
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
 		&d3dpp, &g_pd3dDevice);
 
+	GraphicManager::Init(g_pd3dDevice);
 
 
 
+	nowScene = new Scene();
+
+	Instantiate<TestObj>({ 0.0,0.0 });
+}
+
+void GameManager::Update()
+{
+	nowScene->Update();
 }
 
 void GameManager::Render()
 {
-	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 122, 122), 1.0f, 0);
+	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 255, 255), 1.0f, 0);
 
-	// Begin the scene
+
 	g_pd3dDevice->BeginScene();
 
-	// Rendering of scene objects happens here
-	//오브젝트 랜더링
+	// 오브젝트 렌더링
+	GraphicManager::Render();
 
-	// End the scene
+
+
 	g_pd3dDevice->EndScene();
-	
 
 
 	g_pd3dDevice->Present(NULL, NULL, NULL, NULL);
-
 }
 
 GameManager::GameManager()
