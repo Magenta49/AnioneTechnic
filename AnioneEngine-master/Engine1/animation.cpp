@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "animation.h"
 #include "GraphicManager.h"
+#include "GameObject.h"
+#include "BoxCollider.h"
 
 void animation::Update()
 {
@@ -29,16 +31,22 @@ void animation::Update()
 
 void animation::SetAnimaion(std::string textureName)
 {
+	timePerFrame = -1;
+
+
 	this->textureName = textureName;
 	lastChangeTime = clock();
-	imageSize = GraphicManager::GetTextureSize(textureName);
+	frameSize = imageSize = GraphicManager::GetTextureSize(textureName);
 
-	if (textureName == "TestAnimaion");
+	if (textureName == "TestAnimaion")
 	{
 		//clock_t 단위는 1초에 1000
 		timePerFrame = 1000;
 		frameSize = { 100,100 };
 	}
+
+	parent->collider->size = frameSize;
+	
 }
 
 RECT animation::GetRect()

@@ -9,5 +9,11 @@ public:
 	void Updatae();
 
 	void Awake() override;
+	void Update() override;
+	void LateUpdate() override;
+	void PlayerMove();
+	void MouseInput();
+	void OnCollisionEnter(GameObject * gameObject) override;
+	void OnRender() override;
 };
 

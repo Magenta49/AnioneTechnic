@@ -3,6 +3,9 @@
 #include "Camera.h"
 #include "Scene.h"
 #include "TestObj.h"
+#include "BackGround.h"
+#include "InputManager.h"
+#include "Enemy.h"
 
 LPDIRECT3D9 GameManager::g_pD3D = LPDIRECT3D9();
 LPDIRECT3DDEVICE9 GameManager::g_pd3dDevice = LPDIRECT3DDEVICE9();
@@ -26,17 +29,23 @@ void GameManager::Init(HWND hWnd)
 		&d3dpp, &g_pd3dDevice);
 
 	GraphicManager::Init(g_pd3dDevice);
-
+	InputManager::Init(hWnd);
 
 
 	nowScene = new Scene();
 
-	Instantiate<TestObj>({ 0.0,0.0 });
+	nowScene->
+
+
 }
 
 void GameManager::Update()
 {
+	InputManager::Update();
 	nowScene->Update();
+	nowScene->CollisionCheck();
+	nowScene->lateUpdate();
+	Camera::Update();
 }
 
 void GameManager::Render()

@@ -6,12 +6,15 @@
 
 #include <d3dx9.h>
 
+#include <mmsystem.h>
+
 //#include <typeinfo.h>
 //
 //class Component;
 using namespace std;
 
 class animation;
+class BoxCollider;
 
 
 class GameObject
@@ -21,11 +24,16 @@ public:
 	GameObject();
 	~GameObject();
 
+	std::string name;
+
 	animation * Animation;
+	BoxCollider * collider;
 
 	D3DXVECTOR2 position;
 	D3DXVECTOR2 scale;
 	float degree;
+
+	int sortingLayer;
 
 	bool isActive;
 
@@ -33,6 +41,11 @@ public:
 	virtual void Update();
 	virtual void LateUpdate();
 	virtual void OnDestroy();
+	virtual void OnRender();
+
+	virtual void OnCollisionEnter(GameObject * gameObject);
+
+	static GameObject * Find(std::string name);
 
 	void UpdateAnimation();
 

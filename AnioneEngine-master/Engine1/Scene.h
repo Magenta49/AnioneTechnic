@@ -15,9 +15,14 @@ public:
 	std::list<GameObject *> & GetObjectList();
 	void AddGameObject(GameObject * obj);
 	void Update();
+	void lateUpdate();
+	void CollisionCheck();
+
+	void ChangeScene(std::string sceneName);
 
 private:
 	std::list<GameObject *> objectList;
+	bool AABB(GameObject * obj1, GameObject *obj2);
 };
 
 template <class T>
@@ -31,8 +36,8 @@ T * Instantiate(D3DXVECTOR2 position)
 		return nullptr;
 	}
 
+	gameObject->position = position;
 	GameManager::nowScene->AddGameObject(obj);
 
-	gameObject->position = position;
 	return obj;
 }
